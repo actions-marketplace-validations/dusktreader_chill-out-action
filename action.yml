@@ -43,6 +43,15 @@ inputs:
     required: false
     default: "false"
 
+  ignore:
+    description: >
+      Newline-separated list of package names to skip during the cooldown check.
+      Names are matched against the lockfile after PEP 503 normalization
+      (lowercase, hyphens replacing underscores). Merged with any 'ignore' list
+      already present in the project's chill-out config file.
+    required: false
+    default: ""
+
   fix-style:
     description: >
       Override the configured fix style for a 'fix' run. One of 'exact' or
@@ -94,12 +103,6 @@ inputs:
     required: false
     default: latest
 
-  setup-uv-version:
-    description: >
-      The version of the astral-sh/setup-uv action to use (e.g. 'v5'). Defaults to 'v6'.
-    required: false
-    default: "v6"
-
 outputs:
   exit-code:
     description: >
@@ -117,7 +120,7 @@ runs:
   using: composite
   steps:
     - name: Set up uv
-      uses: astral-sh/setup-uv@${{ inputs.setup-uv-version }}
+      uses: astral-sh/setup-uv@v8.1.0
       with:
         version: ${{ inputs.uv-version }}
 
@@ -129,6 +132,7 @@ runs:
         ROOT: ${{ inputs.root }}
         ECOSYSTEM: ${{ inputs.ecosystem }}
         FAST: ${{ inputs.fast }}
+        IGNORE: ${{ inputs.ignore }}
         FIX_STYLE: ${{ inputs.fix-style }}
         RECHECK: ${{ inputs.recheck }}
         CLEANUP: ${{ inputs.cleanup }}
@@ -141,6 +145,15 @@ runs:
 
         if [[ -n "$ECOSYSTEM" ]]; then
           ARGS="$ARGS --ecosystem $ECOSYSTEM"
+        fi
+
+        if [[ -n "$IGNORE" ]]; then
+          while IFS= read -r pkg; do
+            pkg="$(echo "$pkg" | xargs)"
+            if [[ -n "$pkg" ]]; then
+              ARGS="$ARGS --ignore $pkg"
+            fi
+          done <<< "$IGNORE"
         fi
 
         if [[ "$COMMAND" == "check" ]]; then
@@ -159,7 +172,6 @@ runs:
           if [[ "$CLEANUP" == "false" ]]; then
             ARGS="$ARGS --no-cleanup"
           fi
-          ARGS="$ARGS --yes"
         fi
 
         echo "args=$ARGS" >> "$GITHUB_OUTPUT"

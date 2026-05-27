@@ -13,6 +13,7 @@ jobs:
       - uses: ./
         with:
           command: check
+          root: tests/fixture
 
   test-fix:
     runs-on: ubuntu-latest
@@ -25,4 +26,5 @@ jobs:
       - uses: ./
         with:
           command: fix
+          root: tests/fixture
           github-token: ${{ secrets.GITHUB_TOKEN }}

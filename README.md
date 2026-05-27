@@ -78,14 +78,14 @@ PR is already open, it reuses the existing branch and updates it instead.
 
 ### Global
 
-| Input              | Default  | Description                                                                           |
-| ------------------ | -------- | ------------------------------------------------------------------------------------- |
-| `command`          | `check`  | `check` (read-only, fails on violations) or `fix` (pins violations and opens a PR).   |
-| `version`          | `latest` | Version of chill-out to use. Accepts any specifier accepted by `uvx` (e.g. `0.1.0`).  |
-| `root`             | `.`      | Path to the project root containing the lockfile.                                     |
-| `ecosystem`        | _(auto)_ | Force `pypi` or `npm`; auto-detected when omitted.                                    |
-| `uv-version`       | `latest` | Version of uv to install (e.g. `0.5.0`).                                              |
-| `setup-uv-version` | `v6`     | Version of the `astral-sh/setup-uv` action to use (e.g. `v5`).                        |
+| Input              | Default  | Description                                                                                   |
+| ------------------ | -------- | --------------------------------------------------------------------------------------------- |
+| `command`          | `check`  | `check` (read-only, fails on violations) or `fix` (pins violations and opens a PR).           |
+| `version`          | `latest` | Version of chill-out to use. Accepts any specifier accepted by `uvx` (e.g. `0.1.0`).          |
+| `root`             | `.`      | Path to the project root containing the lockfile.                                             |
+| `ecosystem`        | _(auto)_ | Force `pypi` or `npm`; auto-detected when omitted.                                            |
+| `ignore`           | _(none)_ | Newline-separated package names to skip. Merged with any `ignore` list in the project config. |
+| `uv-version`       | `latest` | Version of uv to install (e.g. `0.5.0`).                                                      |
 
 
 ### `check`
