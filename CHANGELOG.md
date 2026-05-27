@@ -1,5 +1,18 @@
 # Changelog
 
+## 1.1.0 — 2026-05-27
+
+### Added
+
+- `ignore` input: newline-separated list of package names to skip during check or fix.
+
+### Fixed
+
+- Pinned `astral-sh/setup-uv` to `v8.1.0` (major-version aliases aren't published).
+- Removed `--yes` flag from `fix` invocation (flag doesn't exist in chill-out).
+
+----
+
 ## 1.0.0 — 2026-05-08
 
 ### Added
